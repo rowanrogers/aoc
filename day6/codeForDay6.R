@@ -15,7 +15,7 @@ while (!positionFound) {
   i <- i + 1
   packet <- stringr::str_sub(realData, i, i + 13)
 
-  if(length(unique(strsplit(packet, "")[[1]])) == 14) {
+  if (length(unique(strsplit(packet, "")[[1]])) == 14) {
     positionFound <- TRUE
   }
 
