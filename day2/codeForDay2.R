@@ -75,8 +75,8 @@ scoreCalcStrat2 <- function(p2) {
 }
 
 
-combs <- expand.grid(p1 = c("A", "B", "C"), p2 = c("X", "Y", "Z")) %>%
-  dplyr::rowwise() %>%
+combs <- expand.grid(p1 = c("A", "B", "C"), p2 = c("X", "Y", "Z")) |>
+  dplyr::rowwise() |>
   dplyr::mutate(
     p1 = as.character(.data$p1),
     p2 = as.character(.data$p2),
@@ -89,12 +89,12 @@ combs <- expand.grid(p1 = c("A", "B", "C"), p2 = c("X", "Y", "Z")) %>%
 
 analysis <- "day2"
 rawdata <-
-  input %>%
-  dplyr::rowwise() %>%
+  input |>
+  dplyr::rowwise() |>
   dplyr::mutate(
     V1 = stringr::str_split(.data$x, pattern = " ")[[1]][1],
     V2 = stringr::str_split(.data$x, pattern = " ")[[1]][2]
-  ) %>%
+  ) |>
   dplyr::transmute(player1 = .data$V1, player2 = .data$V2)
 
 mergedData <-

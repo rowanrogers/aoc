@@ -13,11 +13,11 @@ crates <- rawData[1:8,]
 
 # first want to get the crate stacks into a workable list
 sortedCrates <-
-  crates %>%
-  dplyr::rowwise() %>%
-  dplyr::mutate(formattedCrate = list(purrr::map_chr(1:9, ~substr(.data$x, 4*(.x-1)+2, 4*(.x-1)+2)))) %>%
-  tidyr::unnest(formattedCrate) %>%
-  dplyr::ungroup() %>%
+  crates |>
+  dplyr::rowwise() |>
+  dplyr::mutate(formattedCrate = list(purrr::map_chr(1:9, ~substr(.data$x, 4*(.x-1)+2, 4*(.x-1)+2)))) |>
+  tidyr::unnest(formattedCrate) |>
+  dplyr::ungroup() |>
   dplyr::mutate(
     stackId = ((dplyr::row_number() - 1) %% 9) + 1
   )
@@ -25,13 +25,13 @@ sortedCrates <-
 # now have the crates as identifiable objects and locations, next step is to
 # convert to a nice character list so we can perform operations
 cratesList <-
-  purrr::set_names(1:9) %>%
+  purrr::set_names(1:9) |>
   purrr::map(
     .f = function(i) {
       orderedStack <-
-        sortedCrates %>%
-        dplyr::filter(.data$stackId == i) %>%
-        dplyr::pull(.data$formattedCrate) %>%
+        sortedCrates |>
+        dplyr::filter(.data$stackId == i) |>
+        dplyr::pull(.data$formattedCrate) |>
         rev()
 
       orderedStack[!orderedStack %in% c(" ", "")]
@@ -40,14 +40,14 @@ cratesList <-
 
 # now we have the crates in a nice shape we can apply to operations.
 tidyInstructions <-
-  rawData[-(1:10),] %>%
+  rawData[-(1:10),] |>
   dplyr::mutate(
     instructionNumber = dplyr::row_number()
-  ) %>%
-  dplyr::rowwise() %>%
+  ) |>
+  dplyr::rowwise() |>
   dplyr::mutate(
     op = stringr::str_extract_all(string = .data$x, pattern = "[0-9]+")
-  ) %>% tidyr::unnest_wider(op, names_sep = "_") %>%
+  ) |> tidyr::unnest_wider(op, names_sep = "_") |>
   dplyr::mutate(
     op_1 = as.numeric(op_1),
     op_2 = as.numeric(op_2),
@@ -87,5 +87,5 @@ for (i in 1:nrow(tidyInstructions)) {
 
 
 # find top of each column
-purrr::map_chr(cratesSorted, ~tail(.,1)) %>% paste0(collapse = "")
+purrr::map_chr(cratesSorted, ~tail(.,1)) |> paste0(collapse = "")
 

@@ -14,7 +14,7 @@ djikstra <- function(mapOfCave_graph, source) {
   names(dist) <- 1:ncol(mapOfCave_graph)
   while (length(Q) > 0) {
 
-    u <- names(which.min(dist[Q])) %>% as.numeric()
+    u <- names(which.min(dist[Q])) |> as.numeric()
     Q <- Q[Q != u]
 
     neighbours <- which(mapOfCave_graph[,u] > 0)

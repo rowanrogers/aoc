@@ -4,7 +4,7 @@ import re
 
 ops = { "+": operator.add, "-": operator.sub, "*": operator.mul}
 
-def read_data(fp: str = "./input.txt"):
+def read_data(fp: str = "./day11/input.txt"):
     with open(fp) as f:
         data = f.read().splitlines()
     monkeys = []

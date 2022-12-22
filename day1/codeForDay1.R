@@ -12,17 +12,17 @@ input <- getInput(1,2022)
 
 # mutate to define which calorie count is related to each elf
 naCalc <-
-  input %>%
-  dplyr::rowwise() %>%
-  dplyr::mutate(naCount = ifelse(is.na(.data$x), 1, 0)) %>%
-  dplyr::ungroup() %>%
+  input |>
+  dplyr::rowwise() |>
+  dplyr::mutate(naCount = ifelse(is.na(.data$x), 1, 0)) |>
+  dplyr::ungroup() |>
   dplyr::mutate(elfNumber = cumsum(.data$naCount) + 1)
 
 # sum over the calories for each elf
 calCount <-
-  naCalc %>%
-  dplyr::group_by(.data$elfNumber) %>%
-  dplyr::summarise(calorieCount = sum(.data$x, na.rm = TRUE)) %>%
+  naCalc |>
+  dplyr::group_by(.data$elfNumber) |>
+  dplyr::summarise(calorieCount = sum(.data$x, na.rm = TRUE)) |>
   dplyr::arrange(dplyr::desc(.data$calorieCount))
 
 # find max calorie count

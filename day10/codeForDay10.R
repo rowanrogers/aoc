@@ -52,22 +52,22 @@ for (i in 1:length(rawData$x)) {
 }
 
 # part 1
-dplyr::filter(status, .data$cycleNumber %in% c(20,60,100,140,180,220)) %>%
-  dplyr::mutate(totalValue = .data$regValue * .data$cycleNumber) %>%
-  dplyr::pull(totalValue) %>% sum
+dplyr::filter(status, .data$cycleNumber %in% c(20,60,100,140,180,220)) |>
+  dplyr::mutate(totalValue = .data$regValue * .data$cycleNumber) |>
+  dplyr::pull(totalValue) |> sum
 
 
 # part 2
 status <-
-  status %>%
-  dplyr::rowwise() %>%
+  status |>
+  dplyr::rowwise() |>
   dplyr::mutate(
     spritePosition = list(c(.data$regValue - 1, .data$regValue, .data$regValue + 1)),
     pixelPosition = (.data$cycleNumber - 1) %% 40,
     pixelDraw = ifelse(.data$pixelPosition %in% .data$spritePosition, "#", ".")
   )
 
-pixelDraw <- tail(status %>% dplyr::pull(.data$pixelDraw), -1)
+pixelDraw <- tail(status |> dplyr::pull(.data$pixelDraw), -1)
 
 # write letters to console
 for (i in 1:length(pixelDraw)) {

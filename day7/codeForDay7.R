@@ -70,7 +70,7 @@ for (i in 1:length(terminalOutput)) {
 }
 
 # all folders have size 0 so we can determine all the folders.
-allFolders <- dplyr::filter(output, .data$size < 0.001)$position %>% purrr::set_names()
+allFolders <- dplyr::filter(output, .data$size < 0.001)$position |> purrr::set_names()
 
 # now we can sum over all folders
 sizeOfFolders <-
